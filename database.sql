@@ -1,0 +1,44 @@
+CREATE TABLE IF NOT EXISTS mahasiswa (
+    id SERIAL PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    nim VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS dosen (
+    id SERIAL PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    nip VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS mata_kuliah (
+    id SERIAL PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    sks INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS jadwal (
+    id SERIAL PRIMARY KEY,
+    mata_kuliah_id INTEGER NOT NULL REFERENCES mata_kuliah(id),
+    dosen_id INTEGER NOT NULL REFERENCES dosen(id),
+    ruangan VARCHAR(50) NOT NULL,
+    waktu TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tugas (
+    id SERIAL PRIMARY KEY,
+    mata_kuliah_id INTEGER NOT NULL REFERENCES mata_kuliah(id),
+    judul VARCHAR(200) NOT NULL,
+    deskripsi TEXT NOT NULL,
+    deadline TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS nilai_tugas (
+    id SERIAL PRIMARY KEY,
+    tugas_id INTEGER NOT NULL REFERENCES tugas(id),
+    mahasiswa_id INTEGER NOT NULL REFERENCES mahasiswa(id),
+    nilai INTEGER NOT NULL
+);
